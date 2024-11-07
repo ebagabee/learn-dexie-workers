@@ -1,27 +1,39 @@
-# LearnDexieWorkers
+# Entendendo o Sistema Angular com Signals, Dexie e Web Workers
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
+1. Estrutura básica e Fluxo de Dados
 
-## Development server
+O sistema funciona seguindo este fluxo:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1. O Usuário digita dados no formulário (Form Component)
+2. Dados são enviados para o botão de salvar (FooterActionComponent)
+3. Ao clicar em salvar, os dados vão para o DataService
+4. DataService salva no banco IndexedDB usando Dexie
+5. Worker processa os dados em background
+6. Interface é atualziada com os novos dados
 
-## Code scaffolding
+# 2. Componentes e suas Responsabilidades
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+2.1 FormComponent
 
-## Build
+```ts
+export class FormComponent {
+  name = signal("");
+  description = signal("");
+  itemModel = model<Item | null>(null);
+}
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+**O que são Signals?**
 
-## Running unit tests
+- Signals são a nova forma de gerenciar estado no Angular
+- São como variáveis reativas que notificam quando mudam
+- Exemplo: `name = signal("")` cria uma variável reativa vazia
+- Para ler o valor: `name()`
+- Para alterar: `name.set('novo valor')`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+**Por que usar Signals?**
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Melhor performance que Observables
+- Sintaxe mais simples
+- Atualizações automáticas na interface
+- Integração nativa com o Angular
