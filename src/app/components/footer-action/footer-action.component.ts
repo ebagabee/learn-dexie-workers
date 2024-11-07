@@ -8,13 +8,23 @@ import { DataService } from '../../services/data.service';
   templateUrl: './footer-action.component.html',
 })
 export class FooterActionComponent {
-  public formData = input.required<Item>();
+  formData = input<Item | null>(null);
 
   constructor(private dataService: DataService) {}
 
+  canSave(): boolean {
+    const data = this.formData();
+    return (
+      data !== null &&
+      data.name?.trim() !== '' &&
+      data.description?.trim() !== ''
+    );
+  }
+
   async onSave(): Promise<void> {
-    if (this.formData()) {
-      await this.dataService.saveItem(this.formData());
+    const data = this.formData();
+    if (data) {
+      await this.dataService.saveItem(data);
     }
   }
 }

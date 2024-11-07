@@ -1,0 +1,23 @@
+<form (ngSubmit)="onSubmit()">
+  <div>
+    <label for="name">Nome:</label>
+    <input
+      id="name"
+      name="name"
+      type="text"
+      [ngModel]="name()"
+      (ngModelChange)="updateName($event)"
+      required
+    />
+  </div>
+  <div>
+    <label for="description">Descrição:</label>
+    <textarea
+      id="description"
+      name="description"
+      [ngModel]="description()"
+      (ngModelChange)="updateDescription($event)"
+      required
+    ></textarea>
+  </div>
+</form>
